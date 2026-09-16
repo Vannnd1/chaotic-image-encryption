@@ -1,0 +1,6 @@
+# requirements.txt 
+numpy>=1.24.0
+opencv-python>=4.8.0
+matplotlib>=3.7.0
+scipy>=1.11.0        # untuk Chi-square kritis dan statistik NIST
+numba>=0.57.0        # opsional — akselerasi JIT (fallback NumPy jika tidak ada)
