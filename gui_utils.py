@@ -308,80 +308,225 @@ class HelpWindow:
 
     def _get_cards(self, program_type):
         if program_type == "gof":
-            algo_enkripsi = "-> Pilih Algoritma (MS Map, Gauss Map, Sequential, GoF)"
-            algo_bif = "-> Pilih fungsi chaos (MS Map, Gauss Map, GoF)"
+            algo_enkripsi = "-> Pilihan Algoritma: MS Map, Gauss Map, Sequential, Gauss-MS Map (g∘f)"
+            algo_bif = "-> Pilihan Fungsi: MS Map, Gauss Map, Gauss-MS Map (g∘f)"
         elif program_type == "fog":
-            algo_enkripsi = "-> Pilih Algoritma (Gauss Map, MS Map, Sequential Gauss+MS, FoG)"
-            algo_bif = "-> Pilih fungsi chaos (Gauss Map, MS Map, FoG)"
+            algo_enkripsi = "-> Pilihan Algoritma: Gauss Map, MS Map, Sequential, MS-Gauss Map (f∘g)"
+            algo_bif = "-> Pilihan Fungsi: Gauss Map, MS Map, MS-Gauss Map (f∘g)"
         else:  # lengkap
-            algo_enkripsi = "-> Pilih Algoritma (MS Map, Gauss Map, Sequential, GoF, FoG)"
-            algo_bif = "-> Pilih fungsi chaos (MS Map, Gauss Map, GoF, FoG)"
+            algo_enkripsi = "-> Pilihan Algoritma: MS Map, Gauss Map, Sequential, Gauss-MS Map (g∘f), MS-Gauss Map (f∘g)"
+            algo_bif = "-> Pilihan Fungsi: MS Map, Gauss Map, Sequential, Gauss-MS Map (g∘f), MS-Gauss Map (f∘g)"
 
         return [
             (
-                "Tombol Enkripsi",
-                "Untuk melakukan proses enkripsi pada Citra\n"
+                "🔒  Tombol Enkripsi Citra",
+                "Mengamankan citra digital medis (X-Ray, MRI, Histopatologi) menjadi cipherimage acak:\n"
                 f"{algo_enkripsi}\n"
-                "-> Masukkan Citra\n"
-                "-> Input Parameter\n"
-                "-> Tekan tombol enkripsi"
+                "-> Pilih file citra (PNG/JPG/BMP)\n"
+                "-> Masukkan parameter kunci (X0, r, α, β, λ, skip)\n"
+                "-> Klik [Enkripsi Citra] -> Simpan hasil cipherimage"
             ),
             (
-                "Tombol Dekripsi",
-                "Untuk melakukan proses dekripsi pada Citra\n"
-                "-> Masukkan Citra\n"
-                "-> Input Parameter\n"
-                "-> Tekan tombol dekripsi\n"
-                "-> Output Image"
+                "🔓  Tombol Dekripsi Citra",
+                "Memulihkan citra acak menjadi citra asli secara lossless (tanpa penurunan kualitas):\n"
+                "-> Masukkan citra terenkripsi (cipherimage)\n"
+                "-> Masukkan parameter kunci yang SAMA PERSIS seperti saat enkripsi\n"
+                "-> Klik [Dekripsi Citra] -> Output citra pulih 100% sempurna"
             ),
             (
-                "Tombol Histogram RGB",
-                "Untuk melakukan proses analisa histogram RGB pada Citra\n"
-                "-> Masukkan Citra pertama dan Citra kedua\n"
-                "-> Tekan tombol Compare\n"
-                "-> Output Detail file Citra\n"
-                "-> Output histogram RGB Citra pertama dan kedua"
-            ),
-            (
-                "Tombol Histogram Grayscale",
-                "Untuk melakukan proses analisa histogram Grayscale pada Citra\n"
-                "-> Masukkan Citra pertama dan Citra kedua\n"
-                "-> Tekan tombol Compare\n"
-                "-> Output Detail file Citra\n"
-                "-> Output histogram Citra pertama dan kedua"
-            ),
-            (
-                "Tombol Diagram Bifurkasi",
-                "Untuk melakukan proses analisa diagram bifurkasi fungsi\n"
+                "📈  Tombol Diagram Bifurkasi",
+                "Menganalisis sebaran nilai iterasi fungsi terhadap parameter kendali (r, α, β, λ):\n"
                 f"{algo_bif}\n"
-                "-> Masukkan parameter dengan tipe data yang ditetapkan\n"
-                "-> Tekan tombol diagram bifurkasi\n"
-                "-> Output diagram bifurkasi dari fungsi berdasarkan parameter inputan"
+                "-> Pilih parameter kendali dan rentang iterasi\n"
+                "-> Klik tombol [Diagram Bifurkasi]\n"
+                "-> Area rapat/gelap menunjukkan rentang parameter dengan perilaku kaotik stabil"
             ),
             (
-                "Tombol Diagram Lyapunov",
-                "Untuk melakukan proses analisa diagram lyapunov fungsi\n"
+                "📉  Tombol Diagram Lyapunov (LLE)",
+                "Membuktikan sifat chaos secara kuantitatif melalui Largest Lyapunov Exponent:\n"
                 f"{algo_bif}\n"
-                "-> Masukkan parameter dengan tipe data yang ditetapkan\n"
-                "-> Tekan tombol diagram lyapunov\n"
-                "-> Output diagram lyapunov dari fungsi berdasarkan parameter inputan"
+                "-> Pilih parameter kendali yang diuji\n"
+                "-> Nilai eksponen positif (µ > 0) membuktikan dinamika sistem bersifat chaotic\n"
+                "-> Semakin tinggi nilai µ, semakin sensitif dan acak barisan bilangan yang dihasilkan"
             ),
             (
-                "Tombol Hitung PSNR",
-                "Untuk melakukan proses analisa PSNR pada citra\n"
-                "-> Masukkan Citra Asli dan Citra hasil dekripsi\n"
-                "-> Tekan tombol Hitung PSNR\n"
-                "-> Output hasil perhitungan PSNR"
+                "📌  Tombol Scatter Keystream & Korelasi",
+                "Menguji independensi sebaran bilangan acak kunci dan korelasi piksel bertetangga:\n"
+                "-> Menampilkan diagram tebar keystream (Xi vs Xi+1)\n"
+                "-> Menghitung koefisien korelasi piksel arah Horizontal, Vertikal, dan Diagonal\n"
+                "-> Nilai korelasi citra cipher ideal mendekati 0.0000 (tidak ada korelasi antar piksel)"
             ),
             (
-                "Tombol Sensitivitas Visual",
-                "Untuk melakukan proses analisa sensitivitas perbedaan 1-bit kunci (NPCR & UACI)\n"
-                "-> Masukkan Citra Asli\n"
-                "-> Input parameter kunci dasar & selisih 1-bit\n"
-                "-> Tekan tombol Uji Sensitivitas\n"
-                "-> Output nilai NPCR, UACI, dan citra selisih"
+                "🔬  Tombol Uji Acak NIST SP 800-22",
+                "Menguji keacakan barisan bit keystream berdasarkan standar internasional NIST:\n"
+                "-> Menjalankan 15 pengujian statistik (Frequency, Runs, Longest Run, FFT, dll.)\n"
+                "-> Syarat kelulusan: Nilai p-value ≥ 0.01\n"
+                "-> Hasil menampilkan status PASS/FAIL per uji beserta ringkasan kelulusan sistem"
+            ),
+            (
+                "📊  Tombol Histogram RGB",
+                "Menganalisis distribusi intensitas piksel per kanal warna (Merah, Hijau, Biru):\n"
+                "-> Masukkan Citra Asli dan Citra Terenkripsi\n"
+                "-> Klik [Compare]\n"
+                "-> Histogram citra terenkripsi ideal menunjukkan distribusi yang rata/seragam (flat)"
+            ),
+            (
+                "📊  Tombol Histogram Grayscale",
+                "Menganalisis distribusi frekuensi intensitas derajat keabuan (0-255):\n"
+                "-> Masukkan Citra Asli dan Citra Terenkripsi\n"
+                "-> Klik [Compare]\n"
+                "-> Distribusi seragam membuktikan citra kebal terhadap serangan analisis statistik"
+            ),
+            (
+                "🎯  Tombol Hitung MSE & PSNR",
+                "Memvalidasi keberhasilan rekonstruksi citra setelah proses dekripsi:\n"
+                "-> Masukkan Citra Asli dan Citra Hasil Dekripsi\n"
+                "-> Klik [Hitung MSE & PSNR]\n"
+                "-> Hasil ideal: MSE = 0.0000 dan PSNR = Infinity dB (rekonstruksi 100% sempurna)"
+            ),
+            (
+                "⚡  Tombol Sensitivitas Visual (NPCR & UACI)",
+                "Menguji ketahanan terhadap serangan diferensial melalui perubahan 1-bit kunci:\n"
+                "-> Masukkan Citra Asli dan atur selisih kunci 1-bit (Δ = 10⁻¹⁵)\n"
+                "-> Standar ideal internasional: NPCR ≥ 99.60% dan UACI ≈ 33.46%\n"
+                "-> Menampilkan citra selisih diferensial secara visual"
+            ),
+            (
+                "⏳  Tombol Riwayat Operasi",
+                "Melihat rekam jejak setiap aktivitas enkripsi dan dekripsi yang telah dilakukan:\n"
+                "-> Menyimpan informasi tanggal, waktu, nama berkas, algoritma, parameter, dan metrik\n"
+                "-> Fitur pencarian/filter serta ekspor riwayat data ke berkas JSON"
+            ),
+            (
+                "👤  Tombol Tentang Peneliti & Aplikasi",
+                "Informasi orisinalitas dan profil pengembang aplikasi:\n"
+                "-> Peneliti: Novandi Ahmad Ramdhan (NPM: 51422256) — Universitas Gunadarma\n"
+                "-> Dosen Pembimbing: Dr. Suci Br Kembaren, S.Kom., MMSI.\n"
+                "-> Repositori Resmi GitHub: https://github.com/Vannnd1/chaotic-image-encryption"
             ),
         ]
+
+
+# ── Window Tentang Peneliti Popup ─────────────────────────────────────────────
+
+class AboutWindow:
+    """Jendela popup informasi tentang peneliti dan aplikasi skripsi."""
+    def __init__(self, parent):
+        self.dlg = tk.Toplevel(parent)
+        self.dlg.title("Tentang Peneliti & Aplikasi")
+        self.dlg.geometry("860x650")
+        self.dlg.minsize(760, 560)
+        self.dlg.configure(bg=BG)
+        self.dlg.transient(parent)
+        self.dlg.grab_set()
+
+        # Posisi di tengah layar / parent
+        self.dlg.update_idletasks()
+        try:
+            w, h = 860, 650
+            x = max(0, parent.winfo_rootx() + (parent.winfo_width() - w) // 2)
+            y = max(0, parent.winfo_rooty() + (parent.winfo_height() - h) // 2)
+            self.dlg.geometry(f"{w}x{h}+{x}+{y}")
+        except Exception:
+            pass
+
+        # Header Frame
+        header = tk.Frame(self.dlg, bg=BG)
+        header.pack(fill="x", padx=28, pady=(20, 10))
+
+        lbl_title = tk.Label(
+            header, text="👤  Tentang Peneliti & Aplikasi", font=F14B,
+            bg=BG, fg=FG
+        )
+        lbl_title.pack(side="left")
+
+        btn_back = tk.Button(
+            header, text="Tutup", font=F10B,
+            bg=BG3, fg=FG, relief="flat", bd=1,
+            highlightbackground=BORDER, highlightthickness=1,
+            activebackground=BORDER, activeforeground=FG,
+            padx=20, pady=4, cursor="hand2", command=self.dlg.destroy
+        )
+        btn_back.pack(side="right")
+
+        # Garis pemisah
+        sep = tk.Frame(self.dlg, bg=BORDER, height=1)
+        sep.pack(fill="x", padx=28, pady=(0, 14))
+
+        # Kontainer dengan Canvas Scroll jika layar kecil
+        canvas = tk.Canvas(self.dlg, bg=BG, highlightthickness=0)
+        scrollbar = tk.Scrollbar(self.dlg, orient="vertical", command=canvas.yview)
+        scroll_frame = tk.Frame(canvas, bg=BG)
+
+        scroll_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        canvas_window = canvas.create_window((0, 0), window=scroll_frame, anchor="nw")
+
+        def _on_canvas_configure(event):
+            canvas.itemconfig(canvas_window, width=event.width)
+        canvas.bind("<Configure>", _on_canvas_configure)
+
+        def _on_mousewheel(event):
+            try:
+                canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+            except Exception:
+                pass
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side="left", fill="both", expand=True, padx=(24, 0), pady=(0, 18))
+        scrollbar.pack(side="right", fill="y", padx=(0, 8), pady=(0, 18))
+
+        # ── Kartu 1: Profil Peneliti ──────────────────────────────────────────
+        c1 = tk.Frame(scroll_frame, bg=BG2, relief="flat", highlightbackground=BORDER, highlightthickness=1)
+        c1.pack(fill="x", padx=6, pady=(0, 12))
+
+        tk.Label(c1, text="🎓  Identitas Peneliti", font=F11B, bg=BG2, fg=ACCENT, anchor="w").pack(fill="x", padx=18, pady=(12, 6))
+
+        info_peneliti = [
+            ("Nama Lengkap", "Novandi Ahmad Ramdhan"),
+            ("NPM", "51422256"),
+            ("Program Studi", "Informatika / Teknik Informatika"),
+            ("Fakultas", "Fakultas Teknologi Industri"),
+            ("Universitas", "Universitas Gunadarma"),
+            ("Tahun Rilis", "2026"),
+            ("Dosen Pembimbing", "Dr. Suci Br Kembaren, S.Kom., MMSI."),
+            ("Judul Skripsi", "Pengembangan dan Perbandingan Algoritma Enkripsi Berbasis Fungsi Chaos MS Gauss Map dan Gauss MS Map untuk Keamanan Citra Digital Medis")
+        ]
+
+        for lbl, val in info_peneliti:
+            row = tk.Frame(c1, bg=BG2)
+            row.pack(fill="x", padx=18, pady=2)
+            tk.Label(row, text=f"{lbl:<18} :", font=F9, bg=BG2, fg=FG2, width=20, anchor="w").pack(side="left")
+            is_bold = lbl in ["Nama Lengkap", "NPM", "Universitas"]
+            tk.Label(row, text=val, font=F10B if is_bold else F9, bg=BG2, fg=FG, justify="left", wraplength=540, anchor="w").pack(side="left", fill="x", expand=True)
+
+        tk.Frame(c1, bg=BG2, height=10).pack()
+
+        # ── Kartu 2: Spesifikasi Riset & Repositori ────────────────────────────
+        c2 = tk.Frame(scroll_frame, bg=BG2, relief="flat", highlightbackground=BORDER, highlightthickness=1)
+        c2.pack(fill="x", padx=6, pady=(0, 12))
+
+        tk.Label(c2, text="💻  Sistem & Repositori Resmi", font=F11B, bg=BG2, fg=ACCENT2, anchor="w").pack(fill="x", padx=18, pady=(12, 6))
+
+        info_riset = [
+            ("Algoritma Kaotik", "Gauss MS Map (g∘f), MS Gauss Map (f∘g), MS Map, Gauss Map, Sequential"),
+            ("Fitur Pengujian", "NIST SP 800-22, Entropi Shannon, Korelasi Piksel, NPCR, UACI, MSE, PSNR, LLE, Bifurkasi"),
+            ("Repositori GitHub", "https://github.com/Vannnd1/chaotic-image-encryption"),
+            ("Teknologi & Lib", "Python 3.10+, Tkinter, OpenCV, NumPy, SciPy, Matplotlib, Numba JIT"),
+            ("Lisensi Perangkat", "MIT License (Hak Cipta © 2026 Novandi Ahmad Ramdhan)")
+        ]
+
+        for lbl, val in info_riset:
+            row = tk.Frame(c2, bg=BG2)
+            row.pack(fill="x", padx=18, pady=2)
+            tk.Label(row, text=f"{lbl:<18} :", font=F9, bg=BG2, fg=FG2, width=20, anchor="w").pack(side="left")
+            fg_color = ACCENT if "https://" in val else FG
+            tk.Label(row, text=val, font=F10B if "https://" in val else F9, bg=BG2, fg=fg_color, justify="left", wraplength=540, anchor="w").pack(side="left", fill="x", expand=True)
+
+        tk.Frame(c2, bg=BG2, height=10).pack()
 
 
 # ── Preview Gambar ────────────────────────────────────────────────────────────

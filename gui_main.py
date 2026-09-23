@@ -98,33 +98,41 @@ ALGO_INFO = {
 }
 
 HELP_TEXT = (
-    "PANDUAN PENGGUNAAN PROGRAM\n"
-    "═══════════════════════════════════════════\n\n"
-    "1. PILIH ALGORITMA\n"
-    "   Pilih salah satu dari 4 algoritma chaos di panel tengah.\n"
-    "   Klik tombol ℹ di sebelah nama algoritma untuk melihat\n"
-    "   penjelasan formula dan cara kerjanya.\n\n"
-    "2. ENKRIPSI GAMBAR\n"
-    "   • Klik [Enkripsi] → jendela enkripsi terbuka\n"
-    "   • Klik [Open Image] → pilih file gambar (PNG/JPG/BMP)\n"
-    "   • Sesuaikan parameter chaos jika diperlukan\n"
-    "   • Klik [Enkripsi] → gambar dienkripsi\n"
-    "   • Klik [Save Image] → simpan hasil enkripsi\n\n"
-    "3. DEKRIPSI GAMBAR\n"
-    "   • Klik [Dekripsi] → jendela dekripsi terbuka\n"
-    "   • Gunakan PARAMETER YANG SAMA persis seperti saat enkripsi\n"
-    "   • Klik [Dekripsi] → gambar dipulihkan\n\n"
-    "4. DIAGRAM LYAPUNOV\n"
-    "   • Pilih parameter (r / α / β / λ) yang ingin dianalisis\n"
-    "   • Klik tombol parameter → diagram terbuka\n"
-    "   • µ > 0 = sistem chaotic, µ ≤ 0 = sistem stabil/periodik\n\n"
-    "5. DIAGRAM BIFURKASI\n"
-    "   • Menunjukkan sebaran nilai Xn saat parameter berubah\n"
-    "   • Area padat/gelap = perilaku chaotic\n\n"
-    "6. ANALISIS & COMPARE\n"
-    "   • Histogram RGB/Grayscale: bandingkan distribusi piksel\n"
-    "   • Hitung PSNR: ukur kualitas rekonstruksi setelah dekripsi\n\n"
-    "Format gambar yang didukung: PNG, JPG, BMP, TIFF"
+    "PANDUAN PENGGUNAAN SISTEM ENKRIPSI CITRA DIGITAL BERBASIS CHAOS\n"
+    "Pengembang: Novandi Ahmad Ramdhan (NPM: 51422256) — Universitas Gunadarma (2026)\n"
+    "═══════════════════════════════════════════════════════════════════════════\n\n"
+    "1. PILIH ALGORITMA KAOS\n"
+    "   Pilih salah satu dari 5 algoritma peta kaos yang tersedia di panel tengah:\n"
+    "   • MS Map (f(x))              — Peta sinus termodifikasi mandiri\n"
+    "   • Gauss Map (g(x))           — Peta eksponensial Gauss mandiri\n"
+    "   • Sequential (Berlapis)      — Penggabungan dua keystream (MS Map + Gauss Map)\n"
+    "   • Gauss MS Map (g∘f)         — Komposisi: Gauss di luar, MS Map di dalam\n"
+    "   • MS Gauss Map (f∘g)         — Komposisi: MS Map di luar, Gauss di dalam\n"
+    "   Klik tombol [ℹ] di sebelah nama algoritma untuk melihat formula matematisnya.\n\n"
+    "2. ENKRIPSI CITRA\n"
+    "   • Klik [Enkripsi Citra] → jendela enkripsi terbuka\n"
+    "   • Klik [Open Image] → pilih file citra medis (PNG/JPG/BMP)\n"
+    "   • Sesuaikan parameter kunci (X0, r, α, β, λ, skip) bila diperlukan\n"
+    "   • Klik [Enkripsi Citra] → citra diamankan dengan difusi XOR\n"
+    "   • Klik [Save Image] → simpan citra terenkripsi (cipherimage)\n\n"
+    "3. DEKRIPSI CITRA\n"
+    "   • Klik [Dekripsi Citra] → jendela dekripsi terbuka\n"
+    "   • Gunakan PARAMETER KUNCI YANG SAMA PERSIS seperti saat enkripsi\n"
+    "   • Klik [Dekripsi Citra] → citra dipulihkan ke bentuk asli secara lossless\n\n"
+    "4. PENGUJIAN DINAMIKA KAOS (LYAPUNOV & BIFURKASI)\n"
+    "   • Diagram Lyapunov: Bukti kuantitatif chaos (LLE > 0 menandakan kaotik)\n"
+    "   • Diagram Bifurkasi: Menampilkan sebaran titik nilai iterasi terhadap parameter\n"
+    "   • Scatter Keystream: Memvisualisasikan sebaran nilai kunci dan korelasi antar byte\n"
+    "   • Uji Acak NIST SP 800-22: Pengujian 15 uji statistik standar internasional (p-value ≥ 0.01)\n\n"
+    "5. PENGUJIAN KEAMANAN CITRA\n"
+    "   • Histogram RGB & Grayscale: Membandingkan distribusi frekuensi piksel\n"
+    "   • Hitung MSE & PSNR: Validasi integritas rekonstruksi (MSE=0, PSNR=Infinity dB)\n"
+    "   • Sensitivitas Visual (NPCR & UACI): Uji ketahanan terhadap serangan diferensial 1-bit\n\n"
+    "6. RIWAYAT OPERASI & TENTANG PENELITI\n"
+    "   • Riwayat: Rekam jejak seluruh eksekusi enkripsi & dekripsi beserta metriknya\n"
+    "   • Tentang Saya: Profil pengembang Novandi Ahmad Ramdhan (NPM: 51422256)\n"
+    "   • Repositori GitHub: https://github.com/Vannnd1/chaotic-image-encryption\n\n"
+    "Format citra yang didukung: PNG, JPG, JPEG, BMP, TIFF (Grayscale 2D & RGB 3D)"
 )
 
 
@@ -171,11 +179,21 @@ class App:
         tk.Frame(root, bg=ACCENT, height=3).pack(fill="x")
 
         # ── Header (Ditengahkan agar seimbang & profesional) ──────────────
-        hdr = tk.Frame(root, bg=BG2, pady=16)
+        hdr = tk.Frame(root, bg=BG2, pady=12)
         hdr.pack(fill="x")
         tk.Label(hdr, text="Enkripsi Citra Digital Berbasis Chaos",
                  bg=BG2, fg=FG, font=("Segoe UI", 16, "bold"), justify="center").pack(anchor="center")
+        tk.Label(hdr, text="Novandi Ahmad Ramdhan  •  NPM: 51422256  •  Universitas Gunadarma (2026)",
+                 bg=BG2, fg=FG2, font=("Segoe UI", 9), justify="center").pack(anchor="center", pady=(3, 0))
         tk.Frame(hdr, bg=ACCENT, height=2).pack(fill="x", pady=(10, 0))
+
+        # ── Footer Bar ────────────────────────────────────────────────────
+        footer = tk.Frame(root, bg=BG2, pady=4)
+        footer.pack(side="bottom", fill="x")
+        tk.Label(footer, text="Sistem Kriptografi Citra Digital  •  Novandi Ahmad Ramdhan (51422256)",
+                 bg=BG2, fg=FG2, font=F8).pack(side="left", padx=14)
+        tk.Label(footer, text="GitHub: Vannnd1/chaotic-image-encryption",
+                 bg=BG2, fg=ACCENT, font=F8).pack(side="right", padx=14)
 
         # ── Body (Kontainer Tengah agar jarak antar kolom tidak terlalu jauh)
         body = tk.Frame(root, bg=BG)
@@ -297,10 +315,11 @@ class App:
 
         fur = _lframe(right, "  🛠  Utilitas")
         fur.pack(fill="x", ipady=4)
-        _btn_secondary(fur, "⏳  Riwayat",   self._open_history,          width=16).pack(padx=8, pady=4)
-        _btn_secondary(fur, "❓  Bantuan",  self._show_help,             width=16).pack(padx=8, pady=4)
+        _btn_secondary(fur, "⏳  Riwayat",       self._open_history,          width=16).pack(padx=8, pady=3)
+        _btn_secondary(fur, "❓  Bantuan",       self._show_help,             width=16).pack(padx=8, pady=3)
+        _btn_secondary(fur, "👤  Tentang Saya",  self._show_about,            width=16).pack(padx=8, pady=3)
         _separator(fur).pack(fill="x", padx=8, pady=4)
-        _btn_danger(fur,    "✕  Keluar",   self.exit_app,               width=16).pack(padx=8, pady=4)
+        _btn_danger(fur,    "✕  Keluar",        self.exit_app,               width=16).pack(padx=8, pady=3)
 
     # ── Event: Algoritma Berubah (Button Selection) ────────────────────────────
     def _select_algorithm(self, val):
@@ -365,6 +384,10 @@ class App:
     def _show_help(self):
         from gui_utils import HelpWindow
         HelpWindow(self.root, program_type="lengkap")
+
+    def _show_about(self):
+        from gui_utils import AboutWindow
+        AboutWindow(self.root)
 
     def exit_app(self):
         if messagebox.askokcancel("Keluar", "Yakin ingin keluar dari program?",
