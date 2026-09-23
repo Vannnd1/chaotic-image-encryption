@@ -32,7 +32,7 @@ from tkinter import messagebox
 
 from gui_utils import (
     BG, BG2, BG3, ACCENT, ACCENT2, FG, FG2, BORDER,
-    F9, F10, F10B, F11B, F12B, F14B,
+    F8, F9, F10, F10B, F11B, F12B, F14B,
     _btn, _btn_secondary, _btn_danger, _lbl, _lframe, _info_btn,
     _section_header, _separator,
 )
